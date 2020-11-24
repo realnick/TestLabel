@@ -41,7 +41,7 @@ bool HelloWorld::init()
         return false;
     }
 
-    auto jsonText = FileUtils::getInstance()->getStringFromFile("json/test.json");
+    auto jsonText = FileUtils::getInstance()->getStringFromFile("json/test_zh.json");
     auto jsonArray = PEUtils::parseJson(jsonText).get<picojson::array>();
     float baseX = 30, baseY = 400, margin = 10, fontSize = 32;
     float y = baseY;

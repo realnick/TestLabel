@@ -24,7 +24,7 @@
     using namespace cocos2d; \
     using namespace cocos2d::extension;
 
-#define PE_FONT_NAME "fonts/rounded-x-mplus-1p-bold.ttf"
+#define PE_FONT_NAME "fonts/NotoSansCJK-Regular.ttc"
 
 #define PE_LOGD(...) CCLOG(__VA_ARGS__)
 #define PE_LOGI(...) CCLOG(__VA_ARGS__)
