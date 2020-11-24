@@ -24,6 +24,7 @@
 
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
+#include "PEUtils.h"
 
 // #define USE_AUDIO_ENGINE 1
 
@@ -39,8 +40,12 @@ static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
+AppDelegate *AppDelegate::s_pSharedObject;
+
 AppDelegate::AppDelegate()
+: m_fontScaleFactor(1.0)
 {
+    s_pSharedObject = this;
 }
 
 AppDelegate::~AppDelegate() 
@@ -72,13 +77,17 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
         glview = GLViewImpl::createWithRect("TestLabel", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+#elif CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+        glview = cocos2d::GLViewImpl::createWithRect("TestLabel", Rect(0, 0, 1280, 800), 1.0, true);
 #else
         glview = GLViewImpl::create("TestLabel");
 #endif
         director->setOpenGLView(glview);
     }
+
+    updateDesignResolution();
 
     // turn on display FPS
     director->setDisplayStats(true);
@@ -133,3 +142,23 @@ void AppDelegate::applicationWillEnterForeground() {
     AudioEngine::resumeAll();
 #endif
 }
+
+void AppDelegate::updateDesignResolution()
+{
+    auto szContent = Size(800, 430);
+    auto aspectContent = PEUtils::getAspectRatio(szContent);
+    auto glview = Director::getInstance()->getOpenGLView();
+    auto szGL = glview->getFrameSize();
+    auto aspectGL = PEUtils::getAspectRatio(szGL);
+    if (aspectGL < aspectContent) {
+        m_fontScaleFactor = szGL.width / szContent.width;
+        glview->setDesignResolutionSize(szContent.width, szContent.width/aspectGL, ResolutionPolicy::SHOW_ALL);
+    } else {
+        m_fontScaleFactor = szGL.height / szContent.height;
+        glview->setDesignResolutionSize(szContent.height*aspectGL, szContent.height, ResolutionPolicy::SHOW_ALL);
+    }
+#if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
+    m_fontScaleFactor *= glview->getRetinaFactor();
+#endif
+}
+

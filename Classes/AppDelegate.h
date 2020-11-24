@@ -37,6 +37,7 @@ class  AppDelegate : private cocos2d::Application
 public:
     AppDelegate();
     virtual ~AppDelegate();
+    static inline AppDelegate* sharedObject() { return s_pSharedObject; };
 
     virtual void initGLContextAttrs();
 
@@ -58,6 +59,12 @@ public:
     @param  the pointer of the application
     */
     virtual void applicationWillEnterForeground();
+
+    void updateDesignResolution();
+    inline float getFontScaleFactor() { return m_fontScaleFactor; };
+protected:
+    static AppDelegate *s_pSharedObject;
+    float m_fontScaleFactor;
 };
 
 #endif // _APP_DELEGATE_H_
