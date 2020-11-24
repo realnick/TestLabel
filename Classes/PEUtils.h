@@ -10,6 +10,7 @@
 class PEUtils
 {
 public:
+    static picojson::value parseJson(const std::string& jsonString);
     static inline float getAspectRatio(const cocos2d::Size& sz) {
         if (sz.width < sz.height) {
             return sz.height / sz.width;

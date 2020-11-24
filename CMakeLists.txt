@@ -59,12 +59,14 @@ list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
      Classes/HelloWorldScene.cpp
      Classes/PELabel.cpp
+     Classes/PEUtils.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
      Classes/HelloWorldScene.h
      Classes/PELabel.h
      Classes/PEUtils.h
+     libs/picojson.h
      )
 
 if(ANDROID)
@@ -135,6 +137,7 @@ endif()
 target_link_libraries(${APP_NAME} cocos2d)
 target_include_directories(${APP_NAME}
         PRIVATE Classes
+        PRIVATE libs
         PRIVATE ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
 )
 

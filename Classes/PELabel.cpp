@@ -103,17 +103,3 @@ Size PELabel::getBoundingSize(Label* pLabel)
     pLabel->setString("");
     return result;
 }
-
-Node* PELabel::createWithName(const string& name, int height, const string& text, int maxFontSize)
-{
-    if (!name.empty()) {
-        auto pSpriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName(name);
-        if (pSpriteFrame) {
-            auto pSprite = Sprite::createWithSpriteFrame(pSpriteFrame);
-            auto szSprite = pSprite->getContentSize();
-            pSprite->setScale(height/szSprite.height);
-            return pSprite;
-        }
-    }
-    return create(text, (0 < maxFontSize) ? maxFontSize : height);
-}

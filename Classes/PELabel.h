@@ -24,8 +24,5 @@ public:
     static float getScaleX(cocos2d::Label* pLabel);
     static float getScaleY(cocos2d::Label* pLabel);
     static cocos2d::Size getBoundingSize(cocos2d::Label* pLabel);
-
-    static cocos2d::Node* createWithName(const std::string& name, int height,
-                                         const std::string& text, int maxFontSize = 0);
 };
 #endif /* defined(__PELabel__) */
